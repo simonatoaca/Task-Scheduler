@@ -3,7 +3,7 @@
 import java.util.List;
 
 public class MyDispatcher extends Dispatcher {
-    SchedulingAlgorithmStrategy schedulingAlgorithm;
+    private SchedulingAlgorithmStrategy schedulingAlgorithm;
     public MyDispatcher(SchedulingAlgorithm algorithm, List<Host> hosts) {
         super(algorithm, hosts);
 

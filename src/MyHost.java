@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class MyHost extends Host {
     // Flag inserted into the queue to signal shutdown
-    private final Task poisonPill = new Task(-1, 0, 0, TaskType.SHORT, 0,false);
+    private final Task endTask = new Task(-1, 0, 0, TaskType.SHORT, 0,false);
     private final BlockingQueue<Task> tasks = new PriorityBlockingQueue<>(10,
             Comparator.comparing(Task::getPriority, Comparator.reverseOrder()).thenComparing(Task::getId));
     private Task currentTask;
@@ -26,7 +26,7 @@ public class MyHost extends Host {
                     currentTask = tasks.take();
 
                     // Shutdown was called
-                    if (currentTask == poisonPill) {
+                    if (currentTask == endTask) {
                         break;
                     }
 
@@ -92,6 +92,7 @@ public class MyHost extends Host {
 
     @Override
     public void shutdown() {
-        tasks.add(poisonPill);
+        // Add termination flag to the queue
+        tasks.add(endTask);
     }
 }
